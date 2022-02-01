@@ -17,13 +17,13 @@ VALUES
 ('Receptionist', 47000, 6),
 ('Accountant', 89000, 7);
 
-INSERT INTO employees(first_name, last_name, role_id) 
+INSERT INTO employees(first_name, last_name, role_id, manager_id) 
 VALUES
-('Michael', 'Scott', 1),
-('Pam', 'Beesly', 5),
-('Jim', 'Halpert', 2),
-('Toby', 'Flenderson', 3),
-('Stanley', 'Hudson', 6),
-('Darryl', 'Philbin', 3);
+('Michael', 'Scott', 1, 1),
+('Pam', 'Beesly', 5, 1),
+('Jim', 'Halpert', 2, 1),
+('Toby', 'Flenderson', 3, 1),
+('Stanley', 'Hudson', 6, 1),
+('Darryl', 'Philbin', 3, 1);
 
     
