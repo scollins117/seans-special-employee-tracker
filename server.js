@@ -57,6 +57,7 @@ const startup = () => {
 const viewDepartments = () => {
     db.query(`SELECT * FROM departments`, (err, rows) => {
         console.table(rows);
+        startup();
     });
 }
 
@@ -64,6 +65,7 @@ const viewDepartments = () => {
 const viewRoles = () => {
     db.query(`SELECT * FROM roles`, (err, rows) => {
         console.table(rows);
+        startup();
     });
 }
 
@@ -71,6 +73,7 @@ const viewRoles = () => {
 const viewEmployees = () => {
     db.query(`SELECT * FROM employees`, (err, rows) => {
         console.table(rows);
+        startup();
     });
 }
 
@@ -87,7 +90,8 @@ const addDepartment = () => {
         db.query(`INSERT INTO departments (department_name)
             VALUES ('${answer.department}')`, (err, res) => {
                 if(err) throw err;
-                console.log('Department' + answer.department + 'added.');
+                console.log('Department ' + answer.department + 'added.');
+                startup();
             })
     })
 }
@@ -117,6 +121,7 @@ const addRole = () => {
                 if(err) throw err;
                 console.log('Succes');
                 viewRoles();
+                startup();
             })
     })
 }
@@ -151,6 +156,7 @@ const addEmployee = () => {
                 if(err) throw err;
                 console.log('Succes');
                 viewEmployees();
+                startup();
             })
     })
 }
@@ -159,7 +165,7 @@ const addEmployee = () => {
 const updateEmployee = () => {
     inquirer.prompt([
         {
-            name: 'queryID',
+            name: 'employeeID',
             type: 'number',
             message: 'Enter ID of Employee You Want to Update'
         },
@@ -169,7 +175,14 @@ const updateEmployee = () => {
             message: 'Enter Employee New Role ID'
         }        
     ])
-    
+    .then(function(answer) {
+        db.query(`UPDATE employees SET role_id = '${answer.newRole}' WHERE id = '${answer.employeeID}'`, (err, res) => {
+            if(err) throw err;
+            console.log('Succes');
+            viewEmployees();
+            startup();
+        });
+    })
 }
 
 startup();
