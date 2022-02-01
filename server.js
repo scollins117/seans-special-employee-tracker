@@ -90,8 +90,8 @@ const addDepartment = () => {
         db.query(`INSERT INTO departments (department_name)
             VALUES ('${answer.department}')`, (err, res) => {
                 if(err) throw err;
-                console.log('Department ' + answer.department + 'added.');
-                startup();
+                console.log('Department ' + answer.department + ' added.');
+                viewDepartments();
             })
     })
 }
@@ -120,8 +120,8 @@ const addRole = () => {
             VALUES ('${answer.title}', '${answer.salary}', '${answer.departmentID}')`, (err, res) => {
                 if(err) throw err;
                 console.log('Succes');
+                // viewRoles();
                 viewRoles();
-                startup();
             })
     })
 }
@@ -155,8 +155,8 @@ const addEmployee = () => {
             VALUES ('${answer.firstName}', '${answer.lastName}', '${answer.roleID}', '${answer.managerID}')`, (err, res) => {
                 if(err) throw err;
                 console.log('Succes');
+                // viewEmployees();
                 viewEmployees();
-                startup();
             })
     })
 }
@@ -179,8 +179,8 @@ const updateEmployee = () => {
         db.query(`UPDATE employees SET role_id = '${answer.newRole}' WHERE id = '${answer.employeeID}'`, (err, res) => {
             if(err) throw err;
             console.log('Succes');
+            // viewEmployees();
             viewEmployees();
-            startup();
         });
     })
 }
