@@ -1,16 +1,7 @@
-const mysql = require('mysql2');
-const inquirer = require('inquirer');
-const cTable = require('console.table');
 const db = require('./db/connection');
-
-// simple query
-db.query(
-    `SELECT * FROM employees`,
-    function(err, rows) {
-      console.table(rows); // results contains rows returned by server
-    }
-);
-  
+const mysql = require('mysql2');
+const cTable = require('console.table');
+const inquirer = require('inquirer');
 
 // display all departments
 db.query(`SELECT * FROM departments`, (err, rows) => {
