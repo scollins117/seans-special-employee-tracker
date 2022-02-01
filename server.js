@@ -1,9 +1,10 @@
+// require necessary packages
 const db = require('./db/connection');
 const mysql = require('mysql2');
 const cTable = require('console.table');
 const inquirer = require('inquirer');
 
-
+// provide user with list of options on startup
 const startup = () => {
     inquirer.prompt({
         name: 'menu',
@@ -36,28 +37,44 @@ const startup = () => {
             case 'Add a Department':
                 addDepartment();
             break;
+
+            case 'Add a Role':
+                addRole();
+            break;
+
+            case 'Add an Employee':
+                addEmployee();
+            break;
+
+            case 'Update an Employee Role':
+                updateEmployee();
+            break;
         }
     })
 }
 
+// view all departments
 const viewDepartments = () => {
     db.query(`SELECT * FROM departments`, (err, rows) => {
         console.table(rows);
     });
 }
 
+// view all roles
 const viewRoles = () => {
     db.query(`SELECT * FROM roles`, (err, rows) => {
         console.table(rows);
     });
 }
 
+// view all employees
 const viewEmployees = () => {
     db.query(`SELECT * FROM employees`, (err, rows) => {
         console.table(rows);
     });
 }
 
+// add a department
 const addDepartment = () => {
     inquirer.prompt([
         {
@@ -71,9 +88,88 @@ const addDepartment = () => {
             VALUES ('${answer.department}')`, (err, res) => {
                 if(err) throw err;
                 console.log('Department' + answer.department + 'added.');
-                viewDepartments();
             })
     })
+}
+
+// add a role
+const addRole = () => {
+    inquirer.prompt([
+        {
+            name: 'title',
+            type: 'input',
+            message: 'Enter Role Title'
+        },
+        {
+            name: 'salary',
+            type: 'number',
+            message: 'Enter Role Salary'
+        },
+        {
+            name: 'departmentID',
+            type: 'number',
+            message: 'Enter Department ID'
+        }
+    ])
+    .then(function(answer) {
+        db.query(`INSERT INTO roles (title, salary, department_id)
+            VALUES ('${answer.title}', '${answer.salary}', '${answer.departmentID}')`, (err, res) => {
+                if(err) throw err;
+                console.log('Succes');
+                viewRoles();
+            })
+    })
+}
+
+// add an employee
+const addEmployee = () => {
+    inquirer.prompt([
+        {
+            name: 'firstName',
+            type: 'input',
+            message: 'Enter Employee First Name'
+        },
+        {
+            name: 'lastName',
+            type: 'input',
+            message: 'Enter Employee Last Name'
+        },
+        {
+            name: 'roleID',
+            type: 'number',
+            message: 'Enter Role ID'
+        },
+        {
+            name: 'managerID',
+            type: 'number',
+            message: 'Enter Employee Manager ID'
+        }
+    ])
+    .then(function(answer) {
+        db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id)
+            VALUES ('${answer.firstName}', '${answer.lastName}', '${answer.roleID}', '${answer.managerID}')`, (err, res) => {
+                if(err) throw err;
+                console.log('Succes');
+                viewEmployees();
+            })
+    })
+}
+
+// update an employees role
+const updateEmployee = () => {
+    inquirer.prompt([
+        {
+            name: 'queryID',
+            type: 'number',
+            message: 'Enter ID of Employee You Want to Update'
+        },
+        {
+            name: 'newRole',
+            type: 'number',
+            message: 'Enter Employee New Role ID'
+        }        
+    ])
+    
 }
 
 startup();
