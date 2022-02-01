@@ -119,8 +119,7 @@ const addRole = () => {
         db.query(`INSERT INTO roles (title, salary, department_id)
             VALUES ('${answer.title}', '${answer.salary}', '${answer.departmentID}')`, (err, res) => {
                 if(err) throw err;
-                console.log('Succes');
-                // viewRoles();
+                console.log('Role Updated')
                 viewRoles();
             })
     })
